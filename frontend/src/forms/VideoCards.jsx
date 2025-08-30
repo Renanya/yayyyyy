@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import './VideoCard.css';
+import { useEffect, useState } from 'react';
+import './VideoCards.css';
 import { Link } from 'react-router-dom';
-import axios from '../../api/axios';
+import axios from '../api/axios';
 
-const { baseURL } = require('../../Baseurl')
+const { baseURL } = require('../Baseurl')
 
 const VideoCard = (props) => {
 

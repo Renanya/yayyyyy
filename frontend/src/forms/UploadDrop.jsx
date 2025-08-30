@@ -1,46 +1,67 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useDropzone } from 'react-dropzone';
+import { useEffect, useRef, useState } from 'react';
 import { ArrowUpTrayIcon } from '@heroicons/react/24/solid';
 import { ImCross } from 'react-icons/im';
-import axios from '../../api/axios.js';
-import './Dropzone.css';
+import axios from '../api/axios.js';
+import './UploadDrop.css';
 
 const fileKey = (f) => `${f.name}_${f.size}_${f.lastModified ?? ''}`;
 
 function Dropzone({ className }) {
   const [files, setFiles] = useState([]);
   const [rejected, setRejected] = useState([]);
+  const inputRef = useRef(null);
 
-  const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
-    if (acceptedFiles?.length) {
-      setFiles((prev) => {
-        const existingKeys = new Set(prev.map(fileKey));
-        const newOnes = acceptedFiles
-          .filter((f) => !existingKeys.has(fileKey(f)))
-          .map((f) => Object.assign(f, { preview: URL.createObjectURL(f) }));
-        return [...prev, ...newOnes];
+  const openPicker = () => inputRef.current?.click();
+
+  const addFiles = (selected) => {
+    const existingKeys = new Set(files.map(fileKey));
+    const nextAccepted = [];
+    const nextRejected = [];
+
+    selected.forEach((f) => {
+      // accept only videos (mirrors accept="video/*")
+      if (!f.type?.startsWith('video/')) {
+        nextRejected.push({
+          file: f,
+          errors: [{ code: 'file-invalid-type', message: 'Only video files are allowed' }],
+        });
+        return;
+      }
+      if (!existingKeys.has(fileKey(f))) {
+        nextAccepted.push(Object.assign(f, { preview: URL.createObjectURL(f) }));
+      }
+    });
+
+    if (nextAccepted.length) setFiles((prev) => [...prev, ...nextAccepted]);
+    if (nextRejected.length) setRejected((prev) => [...prev, ...nextRejected]);
+  };
+
+  const onFileChange = (e) => {
+    const selected = Array.from(e.target.files || []);
+    if (selected.length) addFiles(selected);
+    // allow picking the same file again later
+    if (inputRef.current) inputRef.current.value = '';
+  };
+
+  const removeFile = (name) => {
+    setFiles((fs) => {
+      fs.forEach((f) => {
+        if (f.name === name && f.preview) URL.revokeObjectURL(f.preview);
       });
-    }
-    if (rejectedFiles?.length) {
-      setRejected((prev) => [...prev, ...rejectedFiles]);
-    }
-  }, []);
+      return fs.filter((f) => f.name !== name);
+    });
+  };
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: { 'video/*': [] },
-    multiple: true,
-  });
+  const removeRejected = (name) =>
+    setRejected((rs) => rs.filter(({ file }) => file.name !== name));
 
-  const removeFile = (name) => setFiles((fs) => fs.filter((f) => f.name !== name));
-  const removeRejected = (name) => setRejected((rs) => rs.filter(({ file }) => file.name !== name));
   const removeAll = () => {
     files.forEach((f) => f.preview && URL.revokeObjectURL(f.preview));
     setFiles([]);
     setRejected([]);
   };
 
-  // Revoke object URLs on unmount to avoid leaks
+  // cleanup on unmount
   useEffect(() => {
     return () => files.forEach((f) => f.preview && URL.revokeObjectURL(f.preview));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -48,7 +69,7 @@ function Dropzone({ className }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!files?.length) return alert('No files uploaded');
+    if (!files?.length) return alert('No files selected');
 
     const formData = new FormData();
     files.forEach((file) => formData.append('files', file));
@@ -73,26 +94,31 @@ function Dropzone({ className }) {
         err?.message ||
         'Upload failed';
       alert(`Error: ${msg}`);
-      // console.error(err);
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className="dropzone-form">
+      {/* Clickable area */}
       <div
-        {...getRootProps({
-          className,
-          style: { borderWidth: '4px', height: '400px', borderRadius: '20px' },
-        })}
+        onClick={openPicker}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && openPicker()}
+        className={className}
+        style={{ borderWidth: '4px', height: '400px', borderRadius: '20px', cursor: 'pointer' }}
       >
-        <input {...getInputProps()} />
-        <div>
-          <ArrowUpTrayIcon />
-          {isDragActive ? (
-            <p>Drop the files here ...</p>
-          ) : (
-            <p>Drag & drop files here, or click to select files</p>
-          )}
+        <input
+          ref={inputRef}
+          type="file"
+          accept="video/*"
+          multiple
+          onChange={onFileChange}
+          style={{ display: 'none' }}
+        />
+        <div style={{ height: '100%', display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'center', justifyContent: 'center' }}>
+          <ArrowUpTrayIcon style={{ width: 48, height: 48 }} />
+          <p>Click to select video files</p>
         </div>
       </div>
 
@@ -114,6 +140,7 @@ function Dropzone({ className }) {
                 type="button"
                 className="x-button"
                 onClick={() => removeFile(file.name)}
+                aria-label={`Remove ${file.name}`}
               >
                 <ImCross className="text-danger" style={{ fontSize: '16px' }} />
               </button>
@@ -125,19 +152,20 @@ function Dropzone({ className }) {
         <h3 className="rejected-title">Rejected Files</h3>
         <ul className="reject-list">
           {rejected.map(({ file, errors }) => (
-            <li key={fileKey(file)} className="">
+            <li key={fileKey(file)} className="rejected-card">
               <button
                 type="button"
                 className="x-button"
                 onClick={() => removeRejected(file.name)}
+                aria-label={`Remove ${file.name}`}
               >
                 <ImCross className="text-danger" style={{ fontSize: '16px' }} />
               </button>
               <div>
                 <p>{file.name}</p>
                 <ul>
-                  {errors.map((err) => (
-                    <li key={err.code}>{err.message}</li>
+                  {errors.map((er) => (
+                    <li key={er.code}>{er.message}</li>
                   ))}
                 </ul>
               </div>

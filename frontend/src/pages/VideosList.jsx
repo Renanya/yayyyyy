@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react'
-import axios from '../../api/axios'
-import Navbar from '../../components/Navbar/Navbar'
-import VideoCard from '../../components/VideoCard/VideoCard'
-import "./Video.css"
+import './VideosList.css'
+import VideoCards from "../forms/VideoCards"
 import { Link } from 'react-router-dom'
-import { FiVideoOff } from "react-icons/fi";
+
+import React, { useEffect, useState } from 'react'
+import axios from '../api/axios'
 
 function Video() {
 
     const [myVideos, setMyVideos] = useState([])
     const token = localStorage.getItem('token');
     console.log('Token from localStorage:', token);
-    const fetchUserVideos = () => {
+
+    const viewUserVideos = () => {
         axios.get("videos",{
              withCredentials: true
         })
@@ -24,28 +24,26 @@ function Video() {
     }
 
     useEffect(() => {
-        fetchUserVideos()
+        viewUserVideos()
     }, [])
 
 
 
     return (
         <div className='section'>
-            <Navbar />
             <h1 className='video-title'>My Videos</h1>
             <div className = 'content'>
                 {myVideos.length > 0 ? (
                     myVideos.map((video, index) => (
-                        <VideoCard 
+                        <VideoCards 
                             key={index}
                             props = {video}
-                            fetchUserVideos = {fetchUserVideos}
+                            viewUserVideos = {viewUserVideos}
                         />
                     ))
                 ) : (
                     <div className='no-content'>
-                        <FiVideoOff size={100}/>
-                        <p className = "no-vid">No videos found.<Link to="/upload"><span>Upload Videos?</span></Link></p>
+                        <p className = "no-vid"><Link to="/upload"><span>Click me to Upload Videos!</span></Link></p>
                         
                     </div>
                 )}
@@ -53,5 +51,4 @@ function Video() {
         </div>
     )
 }
-
 export default Video

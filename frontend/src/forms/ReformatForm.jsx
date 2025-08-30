@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FaArrowsRotate, FaDownload } from "react-icons/fa6";
 import './ReformatForm.css'; // Make sure you have a CSS file for the styles
-import axios from '../../api/axios';
+import axios from '../api/axios';
 import { useNavigate } from 'react-router-dom';
 function ReformatForm(props) {
 
@@ -16,7 +16,6 @@ function ReformatForm(props) {
     const handleFormatChange = (e) => {
         setFormat(e.target.value);
     };
-
 
     const handleReformat = async (e) => {
         e.preventDefault();
@@ -57,7 +56,7 @@ function ReformatForm(props) {
     }
     };
 
-    const handleDownload = async (e) => {
+    const handleDownloads = async (e) => {
         e.preventDefault();
     
         const baseFilename = props.filename.replace(/\.[^/.]+$/, "");
@@ -100,7 +99,6 @@ function ReformatForm(props) {
         }
     };
     
-
     return (
         <div className="reformat-form-container">
             <form className="reformat-form">
@@ -131,7 +129,7 @@ function ReformatForm(props) {
                     <FaArrowsRotate />
                 </button>
                 {showDownloadButton && (
-                    <button type="button" className="reformat-button" onClick={handleDownload}>
+                    <button type="button" className="reformat-button" onClick={handleDownloads}>
                         <span>Download</span> 
                         <FaDownload />
                     </button>

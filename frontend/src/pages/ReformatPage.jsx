@@ -1,10 +1,10 @@
-// Reformat.jsx
-import React, { useEffect, useState } from 'react';
-import ReformatForm from '../../components/ReformatForm/ReformatForm';
-import './Reformat.css';
+// ReformatPage.jsx
+import { useEffect, useState } from 'react';
+import ReformatForm from '../forms/ReformatForm';
+import './ReformatPage.css';
 import { useParams } from 'react-router-dom';
-import axios from '../../api/axios';
-const { baseURL } = require('../../Baseurl');
+import axios from '../api/axios';
+const { baseURL } = require('../Baseurl');
 
 function Reformat() {
   const { id } = useParams();
