@@ -12,6 +12,7 @@ const app = express();
 
 const userModel = require('./models/users')
 
+require('db.js');
 
 // CORS first
 app.use(cors({
