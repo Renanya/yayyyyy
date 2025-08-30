@@ -65,9 +65,9 @@ const login = (req, res) => {
             // Set cookie 
             res.cookie("token", token, {
                 httpOnly: true,
-                secure: true,
+                secure: false,
                 path: '/',
-                sameSite: "Strict",
+                sameSite: "lax",
             });
 
             // Successful login (don’t expose token in JSON if using cookies)
