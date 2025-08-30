@@ -43,7 +43,7 @@ services:
       - backend
     environment:
       REACT_APP_API_URL: http://backend:5000
-      DANGEROUSLY_DISABLE_HOST_CHECK= "true"
+      DANGEROUSLY_DISABLE_HOST_CHECK: "true"
     ports:
       - "3000:3000"
     networks:
