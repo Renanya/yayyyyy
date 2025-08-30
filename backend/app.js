@@ -15,7 +15,7 @@ const userModel = require('./models/users')
 
 // CORS first
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: true,
   methods: ['GET','PUT','POST','DELETE'],
   credentials: true,
 }));
