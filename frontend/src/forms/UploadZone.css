@@ -13,7 +13,7 @@
 }
 
 /* ---- Layout ---- */
-.dropzone-form {
+.Upload-form {
   max-width: 720px;
   margin: 0 auto;
   padding: 16px;
@@ -67,12 +67,12 @@
 }
 
 /* ---- Below the zone ---- */
-.below-dropzone {
+.below-Upload {
   margin-top: 16px;
 }
 
 /* Buttons row */
-.dropzone-buttons {
+.Upload-buttons {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
@@ -186,6 +186,6 @@
 /* ---- Small screens ---- */
 @media (max-width: 520px) {
   .clickzone { height: 260px; padding: 18px; }
-  .dropzone-buttons { flex-direction: column; }
+  .Upload-buttons { flex-direction: column; }
   .remove-button, .upload-button { width: 100%; text-align: center; }
 }

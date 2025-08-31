@@ -37,7 +37,7 @@ function Video() {
                     myVideos.map((video, index) => (
                         <VideoCards 
                             key={index}
-                            props = {video}
+                            videos = {video}
                             viewUserVideos = {viewUserVideos}
                         />
                     ))

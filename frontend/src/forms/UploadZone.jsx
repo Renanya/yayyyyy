@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import { ArrowUpTrayIcon } from '@heroicons/react/24/solid';
 import { ImCross } from 'react-icons/im';
 import axios from '../api/axios.js';
-import './UploadDrop.css';
+import './UploadZone.css';
 
 const fileKey = (f) => `${f.name}_${f.size}_${f.lastModified ?? ''}`;
 
-function Dropzone({ className }) {
+function UploadZone({ className }) {
   const [files, setFiles] = useState([]);
   const [rejected, setRejected] = useState([]);
   const inputRef = useRef(null);
@@ -67,7 +67,7 @@ function Dropzone({ className }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleSubmit = async (e) => {
+  const handleSubmits = async (e) => {
     e.preventDefault();
     if (!files?.length) return alert('No files selected');
 
@@ -98,7 +98,7 @@ function Dropzone({ className }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="dropzone-form">
+    <form onSubmit={handleSubmits} className="Upload-form">
       {/* Clickable area */}
       <div
         onClick={openPicker}
@@ -122,8 +122,8 @@ function Dropzone({ className }) {
         </div>
       </div>
 
-      <section className="below-dropzone">
-        <div className="dropzone-buttons">
+      <section className="below-Upload">
+        <div className="Upload-buttons">
           <button type="button" onClick={removeAll} className="remove-button">
             Remove all files
           </button>
@@ -177,4 +177,4 @@ function Dropzone({ className }) {
   );
 }
 
-export default Dropzone;
+export default UploadZone;

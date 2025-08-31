@@ -1,4 +1,4 @@
-import Dropzone from '../forms/UploadDrop';
+import UploadZone from '../forms/UploadZone';
 import './UploadPage.css'
 
 function Upload() {
@@ -6,7 +6,7 @@ function Upload() {
     <section className='section'>
       <div className='container'>
         <h1>Upload Video Files Only</h1>
-        <Dropzone className='p-16 mt-10 border border-neutral-200 d-flex justify-content-center align-items-center'/>
+        <UploadZone className='p-15 mt-10 border border-neutral-200 d-flex justify-content-center align-items-center'/>
       </div>
     </section>
   );

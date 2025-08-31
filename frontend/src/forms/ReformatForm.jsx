@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { FaArrowsRotate, FaDownload } from "react-icons/fa6";
-import './ReformatForm.css'; // Make sure you have a CSS file for the styles
+import './ReformatForm.css';
 import axios from '../api/axios';
 import { useNavigate } from 'react-router-dom';
-function ReformatForm(props) {
+function ReformatForm(videos) {
 
     const [format, setFormat]  = useState("mp4");
     const [codec] = useState ("libx264");
@@ -27,10 +27,10 @@ function ReformatForm(props) {
         format,
         codec,
         videoData: {
-            filename: props.filename,
-            mimetype: props.mimetype,
-            filepath: props.filepath,
-            codec: props.codec
+            filename: videos.filename,
+            mimetype: videos.mimetype,
+            filepath: videos.filepath,
+            codec: videos.codec
         }
         };
 
@@ -59,7 +59,7 @@ function ReformatForm(props) {
     const handleDownloads = async (e) => {
         e.preventDefault();
     
-        const baseFilename = props.filename.replace(/\.[^/.]+$/, "");
+        const baseFilename = videos.filename.replace(/\.[^/.]+$/, "");
         const newFilename = `${baseFilename}.${format}`;
 
         try {

@@ -20,7 +20,7 @@ function LoginForm(){
             console.log("no cookie")
         }
     }, [])
-    // Clears fields
+    // Clears all input fields 
     const clearInfo = () => {
         setUsername('');
         setPassword('');

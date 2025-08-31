@@ -5,7 +5,7 @@ import axios from '../api/axios';
 
 const { baseURL } = require('../Baseurl')
 
-const VideoCard = (props) => {
+const VideoCard = (videos) => {
 
     const [videoInfo, setVideoInfo] = useState(null)
     const [thumbnailURL, setThumbnailURL] = useState('')
@@ -28,11 +28,11 @@ const VideoCard = (props) => {
     };
 
     useEffect(() => {
-        if (props.props) {
-            setVideoInfo(props.props);
-            setThumbnailURL(encodeURI(BASE_URL + props.props.thumbnail));
+        if (videos.videos) {
+            setVideoInfo(videos.videos);
+            setThumbnailURL(encodeURI(BASE_URL + videos.videos.thumbnail));
         }
-    }, [props.props]);
+    }, [videos.videos]);
 
     if (!videoInfo) {
         return <div>Loading...</div>; // or some other placeholder
@@ -44,7 +44,7 @@ const VideoCard = (props) => {
 
             await axios.delete(DELETE_URL)
 
-            props.fetchUserVideos()
+            videos.fetchUserVideos()
         } catch(err) {
             if (err.response && err.response.data && err.response.data.message) {
                 const errorMessage = `Error ${err.response.status}: ${err.response.data.message}`;
