@@ -34,8 +34,7 @@ services:
       - app-network
 
   frontend:
-    build:
-      context: 901444280953.dkr.ecr.ap-southeast-2.amazonaws.com/n11288353/n11288353-assesment1:frontend
+    image: 901444280953.dkr.ecr.ap-southeast-2.amazonaws.com/n11288353/n11288353-assesment1:frontend
     container_name: frontend
     restart: always
     depends_on:
