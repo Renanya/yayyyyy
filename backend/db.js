@@ -14,6 +14,7 @@ const db = mariadb.createPool({
 (async () => {
   let conn;
   try {
+    console.log('Attempting Connection...')
     conn = await db.getConnection();
     console.log('Connection successful.');
     // Create users Table
