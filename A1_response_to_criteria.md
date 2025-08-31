@@ -16,19 +16,19 @@ Core criteria
 ### Containerise the app
 
 - **ECR Repository name:** n11288353/n11288353-assesment1
-- **Video timestamp:** 
+- **Video timestamp:** 0:00
 - **Relevant files:** 
     - /frontend/Dockerfile
     - /backend/Dockerfile
 ### Deploy the container
 
-- **EC2 instance ID:**
-- **Video timestamp:**
+- **EC2 instance ID:** i-09ade172ed4c9a8a4 (n11288353A1)
+- **Video timestamp:**0:44
 
 ### User login
 
 - **One line description:**Registration is handled through mariadb validation utilising a json web token and storing it as a cookie.
-- **Video timestamp:**
+- **Video timestamp:**1:00
 - **Relevant files:**
     - /backend/controller/userController.js Line 36
     - /backend/routes/userRoutes.js Line 6
@@ -36,14 +36,14 @@ Core criteria
 ### REST API
 
 - **One line description:** Endpoints for users are: Login/Register/Logout videos: videos/upload/reformat/download
-- **Video timestamp:**
+- **Video timestamp:** 1:25
 - **Relevant files:**
     - /backend/routes/userRoutes Lines 5,6,7
     - /backend/routes/videoRoutes Lines 6,7,8,9,10
 ### Data types
 
 - **One line description:** Application stores the Video Metadata, Video Thumbnails and Video Upload files.
-- **Video timestamp:**
+- **Video timestamp:** 0:37
 - **Relevant files:**
     - /backend/db.js Line 27 
     - /backend/app.js Line 44    
@@ -53,7 +53,7 @@ Core criteria
 - **One line description:** Video Metadata
 - **Type:** Structured, MariaDB
 - **Rationale:** Video Metadata is stored and can only be viewed by their respective owners.
-- **Video timestamp:**
+- **Video timestamp:** 0:37
 - **Relevant files:**
     - /backend/db.js Line 27 
 
@@ -68,15 +68,15 @@ Core criteria
 
 ### CPU intensive task
 
- **One line description:** Transcoding videos via FFmpeg. 
-- **Video timestamp:** 
+ **One line description:** Uploading videos and Transcoding videos via FFmpeg. 
+- **Video timestamp:** 1:15
 - **Relevant files:**
     - /backend/videoController.js Line 18 & 301
 
 ### CPU load testing
 
  **One line description:** Uploading and transcoding a video. 
-- **Video timestamp:** 
+- **Video timestamp:** 1:55
 - **Relevant files:**
     - /backend/videoController.js Line 274 & 29
 
@@ -85,7 +85,7 @@ Additional criteria
 
 ### Extensive REST API features
 
-- **One line description:** User- Login/Registration/Logout Video- Upload/Reformat/Download
+- **One line description:** User- Login/Registration Video- Upload/Reformat/Download
 - **Video timestamp:**
 - **Relevant files:**
     - /backend/routes
@@ -100,10 +100,12 @@ Additional criteria
 
 ### Additional types of data
 
-- **One line description:** Not attempted
-- **Video timestamp:**
+- **One line description:** Video Thumbnail, Metadata and Upload file
+- **Video timestamp:**1:50
 - **Relevant files:**
-    - 
+    - /backend/db.js Line 27 
+    - /backend/app.js Line 44    
+    - /backend/app.js Line 45
 
 ### Custom processing
 
@@ -115,14 +117,14 @@ Additional criteria
 ### Infrastructure as code
 
 - **One line description:** Docker Compose used to initialise the frontend, backend and db on one line in EC2.
-- **Video timestamp:**
+- **Video timestamp:** 0:00
 - **Relevant files:**
     - ./docker-compose.yml
 
 ### Web client
 
 - **One line description:** React API frontend
-- **Video timestamp:**
+- **Video timestamp:** 00:46
 - **Relevant files:**
     -   /frontend/src/pages
     -   /frontend/src/forms
